@@ -32,11 +32,14 @@
   - Application on AWS should be Scalable
   - Application on AWS should be Highly Fault Tolerant
 
-### Architect and Design new application diagram for Cloud Native Implementation 
+### Architect and Design new application diagram for Cloud Native Implementation
 
 - Present Diagram in Draw.io
+- Present few options
+- From multiple option use one in terraform code
 
 ### Write Infrastructure as Code in terraform 0.12
 
 - use remote state
 - terraform code should be promotable Dev > Staging > Production
+- terraform code should be managed in source control system
