@@ -1,0 +1,63 @@
+{{- if and (ne .Values.meta.env "prod") .Values.debugger.enabled -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "debugger.fullName" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.debugger.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.debugger.image.pullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  containers:
+    - name: {{ include "debugger.name" . }}
+      image: "{{ .Values.debugger.image.repository }}:{{ .Values.debugger.image.tag }}"
+      imagePullPolicy: {{ .Values.debugger.image.pullPolicy }}
+      {{- with .Values.debugger.command }}
+      command:
+        {{- range . }}
+        - {{ . | quote }}
+        {{- end }}
+      {{- end }}
+      resources:
+        {{- toYaml .Values.debugger.resources | nindent 8 }}
+      env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        {{- with .Values.debugger.env }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+  restartPolicy: {{ .Values.debugger.restartPolicy }}
+  dnsPolicy: {{ .Values.debugger.dnsPolicy }}
+  {{- with .Values.debugger.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.debugger.affinity }}
+  affinity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.debugger.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,147 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+meta:
+  env: dev
+  version: 0.0.1
+
+configMap:
+  enabled: true
+
+  annotations: {}
+
+  mountPath: params
+
+  readOnly: true
+
+  data: {}
+
+app:
+  enabled: true
+
+  nameOverride: ""
+  fullNameOverride: ""
+
+  annotations: {}
+
+  autoReload: true
+
+  replicas: 1
+
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+  command: []
+  args: []
+
+  prometheus:
+    scrape: true
+    path: /metrics
+    port: 2112
+
+  liveness:
+    enabled: true
+    delay: 3
+    period: 10
+    timeout: 3
+    failure: 3
+
+  readiness:
+    enabled: true
+    path: /health_check
+    delay: 3
+    period: 10
+    timeout: 3
+    success: 1
+    failure: 3
+
+  resources: {}
+
+  env: []
+
+  restartPolicy: Always
+
+  dnsPolicy: ClusterFirst
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+image:
+  tag: latest
+  port: 8080
+
+  pullPolicy: IfNotPresent
+
+  pullSecrets: []
+
+service:
+  enabled: true
+
+  annotations: {}
+
+  type: ClusterIP
+
+  port: 80
+
+ingress:
+  enabled: true
+
+  annotations: {}
+
+  class: nginx
+
+  tls:
+    - hosts: []
+
+  hosts: []
+
+issuer: letsencrypt
+
+autoscaling:
+  enabled: true
+
+  annotations: {}
+
+  minReplicas: 1
+  maxReplicas: 3
+
+  cpu:
+    targetAverageUtilization: 85
+  memory:
+    targetAverageUtilization: 85
+
+debugger:
+  enabled: false
+
+  nameOverride: ""
+  fullNameOverride: ""
+
+  annotations: {}
+
+  image:
+    repository: zackijack/k1p
+    tag: latest
+
+    pullPolicy: Always
+
+    pullSecrets: []
+
+  command: []
+
+  resources: {}
+
+  env: []
+
+  restartPolicy: Always
+
+  dnsPolicy: ClusterFirst
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
