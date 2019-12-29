@@ -1,0 +1,38 @@
+configMap:
+  mountPath: /app/configs
+
+app:
+  command:
+    - pm2
+  args:
+    - start
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 1Gi
+
+image:
+  port: 3000
+
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+
+  tls:
+    - hosts:
+        - app.com
+        - www.app.com
+
+  hosts:
+    - host: app.com
+      paths:
+        - "/"
+
+autoscaling:
+  minReplicas: 3
+  maxReplicas: 100
