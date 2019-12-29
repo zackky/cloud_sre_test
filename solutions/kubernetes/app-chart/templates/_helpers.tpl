@@ -95,6 +95,5 @@ helm.sh/chart: {{ include "meta.chart" . }}
 app.kubernetes.io/instance: {{ .Values.meta.env }}
 app.kubernetes.io/component: {{ .Chart.Name }}
 app.kubernetes.io/version: {{ include "meta.version" . }}
-app.kubernetes.io/part-of: {{ .Values.meta.squad }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
