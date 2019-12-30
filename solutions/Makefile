@@ -20,6 +20,7 @@ help:
 terraform:
 	@echo "Deploying infra"
 	cd terraform && \
+	terraform workspace select ${ENVIRONMENT} && \
 	terraform init && \
 	terraform apply
 
