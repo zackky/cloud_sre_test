@@ -26,7 +26,7 @@ terraform:
 .PHONY: helm
 helm:
 	@echo "Deploying ${APP_NAME} ${VERSION}"
-	helm upgrade ${APP_NAME} kubernetes/app-chart --install --dry-run \
+	helm upgrade ${APP_NAME} kubernetes/app-chart --install \
 		--namespace ${ENVIRONMENT} \
 		--values kubernetes/helm-values/${ENVIRONMENT}.yaml \
 		--set meta.env=${ENVIRONMENT},meta.version=${VERSION},image.repository=${REGISTRY_URL}/${APP_NAME},image.tag=${VERSION}
